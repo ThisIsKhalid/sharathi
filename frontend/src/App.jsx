@@ -123,10 +123,10 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="px-8 py-6 flex justify-between items-center border-b border-border bg-surface-header backdrop-blur-md z-10">
+    <div className="flex flex-col h-screen max-h-screen overflow-hidden bg-midnight">
+      <header className="px-8 py-5 flex justify-between items-center border-b border-border bg-surface-header backdrop-blur-md z-10 flex-shrink-0">
         <div className="flex items-center gap-3">
-          <RiverbornMark size={42} className="shadow-[0_4px_20px_rgba(212,245,60,0.25)] rounded-[10px]" />
+          <RiverbornMark size={38} className="shadow-[0_4px_20px_rgba(212,245,60,0.25)] rounded-[10px]" />
           <div className="flex flex-col leading-tight">
             <h1 className="text-xl font-bold tracking-tight text-frost">Sharathi</h1>
             <span className="text-[10px] font-semibold tracking-wider text-mist/70 uppercase">by Riverborn</span>
@@ -153,9 +153,11 @@ function App() {
         </nav>
       </header>
 
-      {route === 'messages' ? <MessagesPage /> : <Dashboard />}
+      <div className="flex-1 min-h-0 overflow-hidden flex flex-col">
+        {route === 'messages' ? <MessagesPage /> : <Dashboard />}
+      </div>
 
-      <footer className="px-8 py-5 text-center text-[11px] text-mist/50 border-t border-border/60">
+      <footer className="px-8 py-3 text-center text-[11px] text-mist/50 border-t border-border/60 flex-shrink-0">
         Built by <span className="text-lime font-semibold">Riverborn</span>
       </footer>
     </div>
