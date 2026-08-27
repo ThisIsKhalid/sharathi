@@ -59,6 +59,10 @@ module.exports = {
     store.delete(userId);
   },
 
+  clearAll: () => {
+    store.clear();
+  },
+
   getStats: () => {
     return {
       activeUsers: store.size,

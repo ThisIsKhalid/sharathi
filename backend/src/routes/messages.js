@@ -23,4 +23,23 @@ router.get("/:userId/history", (req, res) => {
   });
 });
 
+router.delete("/", (req, res) => {
+  console.log("[Messages] Clearing all message history");
+  messageStore.clearAll();
+  if (req.io) {
+    req.io.emit("clear_all_messages");
+  }
+  res.json({ success: true, message: "All message history cleared" });
+});
+
+router.delete("/:userId", (req, res) => {
+  const userId = req.params.userId;
+  console.log("[Messages] Clearing message history for user", userId);
+  messageStore.clearHistory(userId);
+  if (req.io) {
+    req.io.emit("clear_user_message", { userId });
+  }
+  res.json({ success: true, userId, message: `History cleared for user ${userId}` });
+});
+
 module.exports = router;
