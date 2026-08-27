@@ -72,8 +72,6 @@ function ConversationsPanel({ fullHeight = false }) {
   const [loadingList, setLoadingList] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [platformFilter, setPlatformFilter] = useState('all');
-  const [replyText, setReplyText] = useState('');
-  const [sending, setSending] = useState(false);
 
   const scrollRef = useRef(null);
 
@@ -171,27 +169,6 @@ function ConversationsPanel({ fullHeight = false }) {
       scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
     }
   }, [selected, conversations[selected]?.messages?.length]);
-
-  const handleSendMessage = async (e) => {
-    e?.preventDefault();
-    if (!replyText.trim() || !selected || sending) return;
-
-    const messageText = replyText.trim();
-    setReplyText('');
-    setSending(true);
-
-    try {
-      await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: selected, messageText }),
-      });
-    } catch (err) {
-      console.error('Failed to send reply:', err);
-    } finally {
-      setSending(false);
-    }
-  };
 
   const filteredList = useMemo(() => {
     return Object.values(conversations)
@@ -368,37 +345,7 @@ function ConversationsPanel({ fullHeight = false }) {
                   );
                 })
               )}
-
-              {sending && (
-                <div className="flex flex-col max-w-[70%] self-end items-end animate-msg-in">
-                  <div className="text-[10px] text-lime mb-1 px-1 font-semibold">Sharathi AI Agent is thinking...</div>
-                  <div className="bg-lime/20 text-lime px-4 py-2.5 rounded-2xl rounded-tr-xs flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-lime animate-ping" />
-                    <span className="text-xs">Generating response...</span>
-                  </div>
-                </div>
-              )}
             </div>
-
-            {/* Admin Input Bar */}
-            <form onSubmit={handleSendMessage} className="p-4 bg-black/20">
-              <div className="flex items-center gap-2 bg-white/5 rounded-xl p-1.5 focus-within:bg-white/10 transition-all">
-                <input
-                  type="text"
-                  value={replyText}
-                  onChange={(e) => setReplyText(e.target.value)}
-                  placeholder="Type a message as user to test AI response..."
-                  className="flex-1 bg-transparent px-3 py-1.5 text-xs text-frost placeholder:text-mist/40 focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  disabled={!replyText.trim() || sending}
-                  className="px-3.5 py-1.5 bg-lime text-forest font-bold text-xs rounded-lg hover:bg-lime/90 active:scale-95 disabled:opacity-40 transition-all flex items-center gap-1 flex-shrink-0"
-                >
-                  {sending ? 'Sending...' : 'Send'}
-                </button>
-              </div>
-            </form>
           </>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-xs text-mist/40 p-6 text-center">
