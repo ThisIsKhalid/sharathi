@@ -130,8 +130,29 @@ function ConversationsPanel({ fullHeight = false }) {
       setSelected((current) => current || msg.senderId);
     };
 
+    const handleClearAll = () => {
+      setConversations({});
+      setSelected(null);
+    };
+
+    const handleClearUser = ({ userId }) => {
+      setConversations((prev) => {
+        const next = { ...prev };
+        delete next[userId];
+        return next;
+      });
+      setSelected((current) => (current === userId ? null : current));
+    };
+
     socket.on('new_message', handleNewMessage);
-    return () => socket.off('new_message', handleNewMessage);
+    socket.on('clear_all_messages', handleClearAll);
+    socket.on('clear_user_message', handleClearUser);
+
+    return () => {
+      socket.off('new_message', handleNewMessage);
+      socket.off('clear_all_messages', handleClearAll);
+      socket.off('clear_user_message', handleClearUser);
+    };
   }, []);
 
   useEffect(() => {
@@ -170,6 +191,32 @@ function ConversationsPanel({ fullHeight = false }) {
     }
   }, [selected, conversations[selected]?.messages?.length]);
 
+  const clearAllHistory = async () => {
+    if (!window.confirm('Are you sure you want to clear all message history?')) return;
+    try {
+      await fetch('/api/messages', { method: 'DELETE' });
+      setConversations({});
+      setSelected(null);
+    } catch (err) {
+      console.error('Failed to clear message history:', err);
+    }
+  };
+
+  const clearThreadHistory = async (userId) => {
+    if (!userId) return;
+    try {
+      await fetch(`/api/messages/${encodeURIComponent(userId)}`, { method: 'DELETE' });
+      setConversations((prev) => {
+        const next = { ...prev };
+        delete next[userId];
+        return next;
+      });
+      if (selected === userId) setSelected(null);
+    } catch (err) {
+      console.error('Failed to clear thread history:', err);
+    }
+  };
+
   const filteredList = useMemo(() => {
     return Object.values(conversations)
       .filter((c) => {
@@ -198,9 +245,20 @@ function ConversationsPanel({ fullHeight = false }) {
         <div className="p-4 space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-xs font-bold text-mist/80 tracking-wider uppercase">Conversations</h2>
-            <span className="text-[11px] text-lime font-mono px-2 py-0.5 rounded-full bg-lime/10">
-              {Object.keys(conversations).length} active
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] text-lime font-mono px-2 py-0.5 rounded-full bg-lime/10">
+                {Object.keys(conversations).length} active
+              </span>
+              {Object.keys(conversations).length > 0 && (
+                <button
+                  onClick={clearAllHistory}
+                  className="text-[10px] text-red-400/80 hover:text-red-400 hover:bg-red-500/10 px-2 py-0.5 rounded transition-all font-medium"
+                  title="Clear all message history"
+                >
+                  Clear All
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="relative">
@@ -304,6 +362,15 @@ function ConversationsPanel({ fullHeight = false }) {
                   </div>
                 </div>
               </div>
+
+              {/* Clear active thread button */}
+              <button
+                onClick={() => clearThreadHistory(active.userId)}
+                className="text-xs text-mist/50 hover:text-red-400 hover:bg-white/5 px-2.5 py-1 rounded-lg transition-all"
+                title="Delete this conversation thread"
+              >
+                Clear Thread
+              </button>
             </div>
 
             {/* Message Stream */}
