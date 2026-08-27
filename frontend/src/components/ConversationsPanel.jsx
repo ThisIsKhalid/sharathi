@@ -28,7 +28,7 @@ function timeAgo(ts) {
   return `${Math.floor(hrs / 24)}d`;
 }
 
-function ConversationsPanel() {
+function ConversationsPanel({ fullHeight = false }) {
   // userId -> { userId, platform, updatedAt, lastMessage, messages: [] | null }
   // messages stays null until history has been fetched/loaded for that thread.
   const [conversations, setConversations] = useState({});
@@ -139,7 +139,11 @@ function ConversationsPanel() {
   const activeMeta = active ? platformMeta(active.platform) : null;
 
   return (
-    <div className="flex flex-col md:flex-row rounded-2xl border border-border bg-surface-panel backdrop-blur-lg overflow-hidden h-[520px]">
+    <div
+      className={`flex flex-col md:flex-row rounded-2xl border border-border bg-surface-panel backdrop-blur-lg overflow-hidden ${
+        fullHeight ? 'h-[calc(100vh-220px)] min-h-[420px]' : 'h-[520px]'
+      }`}
+    >
       {/* Conversation list */}
       <div className="w-full md:w-[300px] flex-shrink-0 border-b md:border-b-0 md:border-r border-border/60 flex flex-col">
         <div className="px-5 py-4 border-b border-border/60">

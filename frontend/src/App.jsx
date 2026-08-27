@@ -1,6 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Dashboard from './components/Dashboard';
+import MessagesPage from './components/MessagesPage';
 import RiverbornMark from './components/RiverbornMark';
+
+function getRouteFromPath(pathname) {
+  return pathname === '/messages' ? 'messages' : 'dashboard';
+}
 
 function App() {
   const [callbackState, setCallbackState] = useState({
@@ -8,6 +13,7 @@ function App() {
     success: false,
     error: null
   });
+  const [route, setRoute] = useState(() => getRouteFromPath(window.location.pathname));
 
   useEffect(() => {
     // Check if we are on the facebook callback redirect path
@@ -47,6 +53,18 @@ function App() {
         setCallbackState({ processing: false, success: false, error: errorMsg });
       }
     }
+  }, []);
+
+  // Keep the page in sync with browser back/forward navigation.
+  useEffect(() => {
+    const onPopState = () => setRoute(getRouteFromPath(window.location.pathname));
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
+  const navigate = useCallback((path) => {
+    window.history.pushState({}, '', path);
+    setRoute(getRouteFromPath(path));
   }, []);
 
   // Render Callback loading/success/error UI if we are processing the OAuth redirection
@@ -114,9 +132,28 @@ function App() {
             <span className="text-[10px] font-semibold tracking-wider text-mist/70 uppercase">by Riverborn</span>
           </div>
         </div>
+
+        <nav className="flex items-center gap-1 p-1 rounded-xl bg-black/20 border border-border">
+          <button
+            onClick={() => navigate('/')}
+            className={`px-4 py-2 rounded-lg text-xs font-semibold transition-colors ${
+              route === 'dashboard' ? 'bg-lime text-forest' : 'text-mist/70 hover:text-frost'
+            }`}
+          >
+            Dashboard
+          </button>
+          <button
+            onClick={() => navigate('/messages')}
+            className={`px-4 py-2 rounded-lg text-xs font-semibold transition-colors ${
+              route === 'messages' ? 'bg-lime text-forest' : 'text-mist/70 hover:text-frost'
+            }`}
+          >
+            Messages
+          </button>
+        </nav>
       </header>
 
-      <Dashboard />
+      {route === 'messages' ? <MessagesPage /> : <Dashboard />}
 
       <footer className="px-8 py-5 text-center text-[11px] text-mist/50 border-t border-border/60">
         Built by <span className="text-lime font-semibold">Riverborn</span>
