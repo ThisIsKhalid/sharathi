@@ -32,19 +32,19 @@ Your singular goal is to provide a premium, delightful chat experience that repr
 
   return (
     <div className="flex-1 flex flex-col gap-4 p-6 rounded-2xl border border-border bg-surface-panel backdrop-blur-lg">
-      <h2 className="text-base text-gray-400">Agent Prompt</h2>
-      <p className="text-[13px] text-gray-400 leading-relaxed">
+      <h2 className="text-base text-mist/80">Agent Prompt</h2>
+      <p className="text-[13px] text-mist/60 leading-relaxed">
         Update the AI's core behavior on the fly. Applies to next generation
         cycle.
       </p>
       <textarea
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
-        className="w-full h-[120px] px-4 py-3 bg-black/20 border border-white/10 rounded-lg text-white text-[13px] resize-none outline-none focus:border-accent transition-colors"
+        className="w-full h-[120px] px-4 py-3 bg-black/20 border border-white/10 rounded-lg text-frost text-[13px] resize-none outline-none focus:border-lime transition-colors"
       />
       <button
         onClick={updatePrompt}
-        className="px-4 py-3 bg-gradient-to-br from-accent to-accent-light rounded-lg font-semibold hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(94,106,210,0.4)] active:translate-y-0 transition-all"
+        className="px-4 py-3 bg-gradient-to-br from-accent to-accent-light text-forest rounded-lg font-semibold hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(212,245,60,0.4)] active:translate-y-0 transition-all"
       >
         Update Prompt
       </button>

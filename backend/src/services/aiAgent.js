@@ -6,8 +6,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-async function generateResponse(userId, userMessage) {
-  messageStore.addMessage(userId, "user", userMessage);
+async function generateResponse(userId, userMessage, platform = "direct") {
+  messageStore.addMessage(userId, "user", userMessage, platform);
   const messages = messageStore.getHistory(userId);
 
   try {
@@ -26,7 +26,7 @@ async function generateResponse(userId, userMessage) {
     const aiText = response.choices[0].message.content;
     console.log(`[AI Agent] Generated response: "${aiText}"`);
 
-    messageStore.addMessage(userId, "assistant", aiText);
+    messageStore.addMessage(userId, "assistant", aiText, platform);
     console.log(`[AI Agent] === Finished generateResponse successfully ===`);
     return aiText;
   } catch (error) {

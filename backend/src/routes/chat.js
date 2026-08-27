@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
     });
   }
 
-  const aiReply = await aiAgent.generateResponse(userId, messageText);
+  const aiReply = await aiAgent.generateResponse(userId, messageText, "direct");
   console.log("[Chat] AI Agent response:", aiReply);
 
   if (req.io) {

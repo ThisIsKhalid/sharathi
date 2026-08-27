@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Dashboard from './components/Dashboard';
+import RiverbornMark from './components/RiverbornMark';
 
 function App() {
   const [callbackState, setCallbackState] = useState({
@@ -16,7 +17,7 @@ function App() {
 
       if (code) {
         setCallbackState({ processing: true, success: false, error: null });
-        
+
         // Fetch backend callback endpoint directly via POST request
         fetch('/api/platforms/facebook/callback', {
           method: 'POST',
@@ -51,7 +52,7 @@ function App() {
   // Render Callback loading/success/error UI if we are processing the OAuth redirection
   if (window.location.pathname === '/facebook-callback' || callbackState.processing || callbackState.error || callbackState.success) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-surface-header text-white p-6">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-surface-header text-frost p-6">
         <div className="max-w-md w-full p-8 rounded-2xl border border-border bg-surface-panel backdrop-blur-lg flex flex-col items-center text-center gap-6 shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
           <div className="w-16 h-16 bg-[#1877F2]/10 rounded-2xl flex items-center justify-center text-[#1877F2] shadow-[0_4px_20px_rgba(24,119,242,0.2)]">
             <svg width="32" height="32" fill="currentColor" viewBox="0 0 24 24">
@@ -62,21 +63,21 @@ function App() {
           {callbackState.processing && (
             <>
               <h2 className="text-xl font-bold">Connecting Your Facebook Pages</h2>
-              <p className="text-sm text-gray-400">Please hold on while we exchange credentials and subscribe your pages to our agent webhooks.</p>
-              <div className="w-8 h-8 border-4 border-accent border-t-transparent rounded-full animate-spin mt-2"></div>
+              <p className="text-sm text-mist/70">Please hold on while we exchange credentials and subscribe your pages to our agent webhooks.</p>
+              <div className="w-8 h-8 border-4 border-lime border-t-transparent rounded-full animate-spin mt-2"></div>
             </>
           )}
 
           {callbackState.success && (
             <>
               <h2 className="text-xl font-bold text-emerald-400">Connection Successful!</h2>
-              <p className="text-sm text-gray-400">Your Facebook Page has been successfully authorized and integrated with your AI agent.</p>
+              <p className="text-sm text-mist/70">Your Facebook Page has been successfully authorized and integrated with your AI agent.</p>
               <button
                 onClick={() => {
                   setCallbackState({ processing: false, success: false, error: null });
                   window.location.href = '/';
                 }}
-                className="w-full py-3 bg-gradient-to-br from-accent to-accent-light text-white rounded-xl font-semibold hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(94,106,210,0.4)] active:translate-y-0 transition-all mt-2"
+                className="w-full py-3 bg-gradient-to-br from-accent to-accent-light text-forest rounded-xl font-semibold hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(212,245,60,0.4)] active:translate-y-0 transition-all mt-2"
               >
                 Go to Dashboard
               </button>
@@ -86,13 +87,13 @@ function App() {
           {callbackState.error && (
             <>
               <h2 className="text-xl font-bold text-red-400">Connection Failed</h2>
-              <p className="text-sm text-gray-400">{callbackState.error}</p>
+              <p className="text-sm text-mist/70">{callbackState.error}</p>
               <button
                 onClick={() => {
                   setCallbackState({ processing: false, success: false, error: null });
                   window.location.href = '/';
                 }}
-                className="w-full py-3 bg-white/10 hover:bg-white/15 text-white rounded-xl font-semibold border border-border transition-colors mt-2"
+                className="w-full py-3 bg-white/10 hover:bg-white/15 text-frost rounded-xl font-semibold border border-border transition-colors mt-2"
               >
                 Return to Dashboard
               </button>
@@ -106,15 +107,20 @@ function App() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="px-8 py-6 flex justify-between items-center border-b border-border bg-surface-header backdrop-blur-md z-10">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 bg-gradient-to-br from-accent to-purple-400 rounded-xl flex items-center justify-center shadow-[0_4px_20px_rgba(94,106,210,0.4)]">
-            ✨
+        <div className="flex items-center gap-3">
+          <RiverbornMark size={42} className="shadow-[0_4px_20px_rgba(212,245,60,0.25)] rounded-[10px]" />
+          <div className="flex flex-col leading-tight">
+            <h1 className="text-xl font-bold tracking-tight text-frost">Sharathi</h1>
+            <span className="text-[10px] font-semibold tracking-wider text-mist/70 uppercase">by Riverborn</span>
           </div>
-          <h1 className="text-xl font-semibold tracking-tight">Sharathi</h1>
         </div>
       </header>
 
       <Dashboard />
+
+      <footer className="px-8 py-5 text-center text-[11px] text-mist/50 border-t border-border/60">
+        Built by <span className="text-lime font-semibold">Riverborn</span>
+      </footer>
     </div>
   );
 }

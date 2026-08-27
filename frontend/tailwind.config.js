@@ -7,16 +7,24 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Riverborn brand palette
+        forest: '#0D2B22',
+        midnight: '#060F0C',
+        lime: '#D4F53C',
+        frost: '#F2FFEE',
+        mist: '#9FCEBE',
         surface: {
-          base: '#0d0f12',
-          panel: 'rgba(26, 29, 36, 0.6)',
-          header: 'rgba(13, 15, 18, 0.8)',
+          base: '#060F0C',
+          panel: 'rgba(13, 43, 34, 0.55)',
+          header: 'rgba(6, 15, 12, 0.85)',
+          raised: 'rgba(15, 46, 37, 0.7)',
         },
-        border: 'rgba(255, 255, 255, 0.08)',
+        border: 'rgba(242, 255, 238, 0.08)',
         accent: {
-          DEFAULT: '#5e6ad2',
-          light: '#7a85e6',
-          glow: 'rgba(94, 106, 210, 0.4)',
+          DEFAULT: '#D4F53C',
+          light: '#e2ff6b',
+          dark: '#a9c62c',
+          glow: 'rgba(212, 245, 60, 0.35)',
         },
         platform: {
           fb: '#1877f2',
@@ -26,7 +34,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+        sans: ['Sora', 'Inter', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
       },
       animation: {
         'msg-in': 'msgIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',

@@ -73,9 +73,9 @@ function PlatformStatus() {
   return (
     <div className="flex flex-col gap-5 p-6 rounded-2xl border border-border bg-surface-panel backdrop-blur-lg">
       <div>
-        <h2 className="text-base text-gray-400 font-medium mb-3">Connected Platforms</h2>
+        <h2 className="text-base text-mist/80 font-medium mb-3">Connected Platforms</h2>
         <div className="flex flex-wrap gap-3">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/5 border border-border">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/5 border border-border text-frost">
             <span
               className={`w-2 h-2 rounded-full ${
                 statuses.facebook ? 'bg-emerald-500 shadow-[0_0_10px_#10b981]' : 'bg-red-500'
@@ -89,8 +89,8 @@ function PlatformStatus() {
       <div className="border-t border-border/60 pt-5">
         <div className="flex justify-between items-center mb-4">
           <div>
-            <h3 className="text-sm font-semibold text-white">Facebook Page Manager</h3>
-            <p className="text-xs text-gray-400">Connect dynamic Facebook Pages to orchestrate AI responses</p>
+            <h3 className="text-sm font-semibold text-frost">Facebook Page Manager</h3>
+            <p className="text-xs text-mist/60">Connect dynamic Facebook Pages to orchestrate AI responses</p>
           </div>
           <button
             onClick={handleConnect}
@@ -104,7 +104,7 @@ function PlatformStatus() {
         </div>
 
         {connectedPages.length === 0 ? (
-          <div className="px-4 py-6 border border-dashed border-border/80 rounded-xl text-center text-xs text-gray-500">
+          <div className="px-4 py-6 border border-dashed border-border/80 rounded-xl text-center text-xs text-mist/50">
             No dynamic Facebook Pages connected yet. Click "Connect Page" to login and authorize.
           </div>
         ) : (
@@ -115,8 +115,8 @@ function PlatformStatus() {
                 className="flex justify-between items-center p-3 rounded-xl bg-white/[0.03] border border-white/[0.05]"
               >
                 <div>
-                  <div className="text-xs font-bold text-gray-200">{page.name}</div>
-                  <div className="text-[10px] text-gray-400/80">Page ID: {page.pageId}</div>
+                  <div className="text-xs font-bold text-frost">{page.name}</div>
+                  <div className="text-[10px] text-mist/50">Page ID: {page.pageId}</div>
                 </div>
                 <button
                   onClick={() => handleDisconnect(page.pageId)}
@@ -138,16 +138,16 @@ function PlatformStatus() {
       {/* 3. OAuth Redirect URI Validator */}
       <div className="border-t border-border/60 pt-5">
         <div className="mb-3">
-          <h3 className="text-sm font-semibold text-white">OAuth Redirect URI Validator</h3>
-          <p className="text-xs text-gray-400 mt-1 leading-relaxed">
-            Ensure your exact redirect URL is white-listed in your <b>Meta App Dashboard &gt; Facebook Login &gt; Settings &gt; Valid OAuth Redirect URIs</b>.
+          <h3 className="text-sm font-semibold text-frost">OAuth Redirect URI Validator</h3>
+          <p className="text-xs text-mist/60 mt-1 leading-relaxed">
+            Ensure your exact redirect URL is white-listed in your <b className="text-frost">Meta App Dashboard &gt; Facebook Login &gt; Settings &gt; Valid OAuth Redirect URIs</b>.
           </p>
         </div>
 
         <div className="flex flex-col gap-3">
           {/* Resolved URI Display */}
           <div className="flex items-center gap-2 p-2 bg-black/35 rounded-xl border border-border">
-            <span className="text-[11px] font-mono text-gray-300 break-all select-all flex-1 px-1.5 py-1">
+            <span className="text-[11px] font-mono text-mist/90 break-all select-all flex-1 px-1.5 py-1">
               {resolvedRedirectUri}
             </span>
             <button
@@ -155,7 +155,7 @@ function PlatformStatus() {
               className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${
                 copied
                   ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
-                  : 'bg-white/5 hover:bg-white/10 text-white border border-white/10'
+                  : 'bg-white/5 hover:bg-white/10 text-frost border border-white/10'
               }`}
             >
               {copied ? '✓ Copied' : 'Copy'}
@@ -197,7 +197,7 @@ function PlatformStatus() {
           {/* Context Warning / Alert */}
           {!doesMatch && (
             <div className="p-3 bg-amber-500/5 border border-amber-500/20 rounded-xl text-[11px] text-amber-300/90 leading-relaxed">
-              <b>Notice:</b> You are browsing from <code>{window.location.origin}</code> but the backend is configured to redirect to <code>{backendRedirectUri ? new URL(backendRedirectUri).origin : 'another origin'}</code>. 
+              <b>Notice:</b> You are browsing from <code>{window.location.origin}</code> but the backend is configured to redirect to <code>{backendRedirectUri ? new URL(backendRedirectUri).origin : 'another origin'}</code>.
               To override and align this, set the <code>META_REDIRECT_URI</code> variable in your backend <code>.env</code> file.
             </div>
           )}
@@ -208,4 +208,3 @@ function PlatformStatus() {
 }
 
 export default PlatformStatus;
-

@@ -24,13 +24,13 @@ function MessageSimulator() {
 
   return (
     <div className="flex flex-col gap-4 p-6 rounded-2xl border border-border bg-surface-panel backdrop-blur-lg">
-      <h2 className="text-base text-gray-400">Simulate Facebook Webhook Message</h2>
+      <h2 className="text-base text-mist/80">Simulate Facebook Webhook Message</h2>
       <input
         type="text"
         placeholder="Sender ID (e.g. user123)"
         value={senderId}
         onChange={(e) => setSenderId(e.target.value)}
-        className="px-4 py-3 bg-black/20 border border-white/10 rounded-lg text-white outline-none focus:border-accent transition-colors"
+        className="px-4 py-3 bg-black/20 border border-white/10 rounded-lg text-frost outline-none focus:border-lime transition-colors"
       />
       <input
         type="text"
@@ -39,11 +39,11 @@ function MessageSimulator() {
         onChange={(e) => setMessageText(e.target.value)}
         onKeyPress={handleKeyPress}
         autoComplete="off"
-        className="px-4 py-3 bg-black/20 border border-white/10 rounded-lg text-white outline-none focus:border-accent transition-colors"
+        className="px-4 py-3 bg-black/20 border border-white/10 rounded-lg text-frost outline-none focus:border-lime transition-colors"
       />
       <button
         onClick={simulateMessage}
-        className="px-4 py-3 bg-gradient-to-br from-accent to-accent-light rounded-lg font-semibold hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(94,106,210,0.4)] active:translate-y-0 transition-all"
+        className="px-4 py-3 bg-gradient-to-br from-accent to-accent-light text-forest rounded-lg font-semibold hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(212,245,60,0.4)] active:translate-y-0 transition-all"
       >
         Send to Webhook
       </button>

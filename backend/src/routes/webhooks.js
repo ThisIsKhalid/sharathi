@@ -29,7 +29,7 @@ router.post("/incoming", async (req, res) => {
   }
 
   console.log(`[Webhooks /incoming] Requesting AI response for sender ${senderId}...`);
-  const aiResponseText = await aiAgent.generateResponse(senderId, messageText);
+  const aiResponseText = await aiAgent.generateResponse(senderId, messageText, platform);
   console.log(`[Webhooks /incoming] AI response completed: "${aiResponseText}"`);
 
   if (req.io) {
@@ -124,6 +124,7 @@ router.post("/meta", async (req, res) => {
       const aiResponseText = await aiAgent.generateResponse(
         senderId,
         messageText,
+        "facebook",
       );
 
       // 3. Emit AI response to dashboard
